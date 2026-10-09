@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Malaysia Budget 2027 — Insight Studio</title>
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{
+      --bg: #0f1115;
+      --surface: #141923;
+      --muted: #6b7280;
+      --text: #e8eaf6;
+      --brand: #4f7bdc;
+      --brand-2: #7bdcb5;
+      --grad: linear-gradient(135deg, rgba(79,123,204,.95), rgba(123,220,181,.95));
+      --card: rgba(20,25,35,.8);
+      --shadow: 0 6px 20px rgba(0,0,0,.25);
+      --radius: 14px;
+    }
+    * {box-sizing: border-box}
+    html, body {margin:0; padding:0; background: radial-gradient( circle at 20% -10%, rgba(79,123,204,.15), transparent 40% ), radial-gradient( circle at 100% 0%, rgba(123,220,181,.15), transparent 40%), var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system; }
+    a { color: inherit; text-decoration: none; }
+    header[role="banner"] {
+      position: sticky; top:0; z-index: 50; backdrop-filter: saturate(1.1) blur(6px);
+      background: rgba(10,12,20,.9); border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav {
+      display:flex; align-items:center; justify-content: space-between;
+      max-width: 1100px; margin:0 auto; padding: 14px 20px;
+    }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.4px; }
+    .brand .mark { width:28px; height:28px; display:inline-block; border-radius:8px; background: var(--grad); display:grid; place-items:center; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
+    nav ul { list-style:none; display:flex; gap:20px; margin:0; padding:0; }
+    nav a { padding:8px 12px; border-radius:8px; color:#e8eaf6; }
+    nav a:focus-visible, .cta:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+    .cta {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 18px; border-radius:999px; background: var(--grad);
+      color:white; font-weight:600; box-shadow:0 6px 14px rgba(79,123,204,.4);
+      transition: transform .2s ease;
+    }
+    .cta:hover { transform: translateY(-1px); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 80px; }
+    .hero {
+      display:grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 40px;
+      padding: 72px 0 40px;
+    }
+    .kicker { color: var(--brand); font-weight:700; letter-spacing:.2em; text-transform: uppercase; font-size: .9rem; }
+    .title { font-size: 2.6rem; line-height:1.05; margin: 8px 0 12px; letter-spacing:.01em; }
+    .subtitle { color: var(--muted); font-size: 1.05rem; max-width: 60ch; }
+    .visual { height: 320px; border-radius: var(--radius); background: #111522; position: relative; overflow:hidden; border:1px solid rgba(255,255,255,.08);}
+    .grid {
+      position:absolute; inset:0; background-image: 
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at 60% 30%, rgba(0,0,0,.9), transparent 60%);
+    }
+    .vis-dot { position:absolute; width:14px; height:14px; border-radius:50%; background: #7bdcb5; box-shadow:0 0 0 6px rgba(123,220,181,.15); top:60px; left:60px; }
+    @media (max-width: 900px){
+      .hero { grid-template-columns: 1fr; padding: 40px 0; }
+      .visual { height: 260px; }
+      .title { font-size: 2rem; }
+    }
+    section { margin: 60px 0; }
+    .section-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+    .section-head h2 { font-size: 1.6rem; margin:0; }
+    .section-intro { color: var(--muted); margin-top:6px; }
+    .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 16px; }
+    .card { background: var(--card); border:1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); transition: transform .2s ease, background .3s ease; }
+    .card:hover { transform: translateY(-2px); background: rgba(20,25,35,.92); }
+    .card h3 { margin:0 0 8px; font-size: 1.05rem; }
+    .num { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; font-size: 1.2rem; color:#eafff4; }
+    .muted { color: var(--muted); }
+    .grid-two { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px){
+      .grid-two { grid-template-columns: 1fr; }
+    }
+    footer { margin-top: 40px; padding: 28px 20px; border-top:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:.9rem; }
+    .footer-columns{ display:flex; gap:40px; flex-wrap:wrap; }
+    .footer-columns > div{ min-width:220px; }
+    /* simple keyboard helper for accessibility */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  </style>
+  <script>
+    // Lightweight interaction: budget simulator (no external libraries)
+    document.addEventListener('DOMContentLoaded', function(){
+      const inc = document.querySelector('#income');
+      const tax = document.querySelector('#tax');
+      const net = document.querySelector('#net');
+      function update(){
+        const income = parseInt(inc.value || '0',10);
+        const t = parseInt(tax.value || '0',10);
+        const d = Math.max(0, income - t);
+        net.textContent = '$' + d.toLocaleString();
+      }
+      inc.addEventListener('input', update);
+      tax.addEventListener('input', update);
+      update();
+    });
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src='https://www.googletagmanager.com/gtag/js?id=G-H4VF7WNZRR'></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-H4VF7WNZRR');</script>
+</head>
+<body>
+  <header role="banner" aria-label="Main navigation">
+    <div class="nav">
+      <div class="brand" aria-label="Brand">
+        <span class="mark" aria-hidden="true">
+          <!-- inline SVG badge -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l3 6 6 1-4.5 4.5 1 6-5.5-3-5.5 3 1-6L3 10l6-1 3-6z"/>
+          </svg>
+        </span>
+        Insight Studio
+      </div>
+      <nav aria-label="Site navigation" class="desktop-nav" role="navigation">
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#simulator">Budget Simulator</a></li>
+          <li><a href="#insights">Trend Insights</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#overview" class="cta" aria-label="Primary CTA: Explore the Budget 2027" style="text-decoration:none;">
+        Explore Budget 2027
+      </a>
+    </div>
+  </header>
+
+  <main class="container" id="overview" aria-label="Overview of the premium trend site">
+    <section class="hero" aria-label="Hero section">
+      <div>
+        <span class="kicker">Budget 2027 // Malaysia</span>
+        <h1 class="title" style="margin:.25em 0 0; font-weight:800;">A refined, data-informed look at Malaysia’s 2027 budget</h1>
+        <p class="subtitle">A premium editorial experience that translates a national fiscal framework into tangible guidance for individuals and growing businesses. Designed for decision-makers who demand clarity, not clicks-then-ads.</p>
+        <div style="display:flex; gap:12px; margin-top:14px;">
+          <button class="cta" onclick="document.querySelector('#simulator').scrollIntoView({behavior:'smooth'})" aria-label="Open budget simulator">
+            Try the Budget Simulator
+          </button>
+          <a href="#insights" class="card" style="padding:10px 14px; display:inline-flex; align-items:center; height:40px; border-radius:999px; font-weight:600; border:1px solid rgba(255,255,255,.2); color:#e9f7ff;">
+            Read Trend Insights
+          </a>
+        </div>
+      </div>
+      <div class="visual" aria-label="Editorial visual">
+        <div class="grid" aria-hidden="true"></div>
+        <div class="vis-dot" style="animation:float 6s ease-in-out infinite;"></div>
+      </div>
+    </section>
+
+    <section id="simulator" aria-label="Budget simulator section">
+      <div class="section-head">
+        <h2>Personal Finance in Budget 2027</h2>
+        <div class="section-intro">A pragmatic, production-ready tool to visualize take-home impact.</div>
+      </div>
+      <div class="grid-two" style="margin-top:14px;">
+        <div class="card" aria-label="Income and taxes panel">
+          <h3>Inputs</h3>
+          <p class="muted" style="margin:0 0 8px;">Use real-world numbers to estimate net take-home after tax and essential levies.</p>
+          <label for="income" class="sr-only">Annual income</label>
+          <input id="income" type="range" min="20000" max="200000" value="75000" style="width:100%;">
+          <div class="muted" style="font-size:.9rem; display:flex; justify-content:space-between;">
+            <span>Annual income</span><span>$75,000</span>
+          </div>
+          <label for="tax" class="sr-only" style="margin-top:8px; display:block;">Estimated tax</label>
+          <input id="tax" type="range" min="0" max="40000" value="12000" style="width:100%; margin-top:6px;">
+          <div class="muted" style="font-size:.9rem; display:flex; justify-content:space-between;">
+            <span>Estimated tax</span><span>$12,000</span>
+          </div>
+        </div>
+        <div class="card" aria-label="Result panel">
+          <h3>Result</h3>
+          <p class="muted" style="margin:0 0 8px;">Estimated net after tax and essential contributions.</p>
+          <div class="num" id="net" aria-live="polite">$0</div>
+          <div style="margin-top:8px; font-size:.85rem; color:#cbd5e1;">
+            Tip: small adjustments in allowances or reliefs can have meaningful impact.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" aria-label="Trend insights and narrative">
+      <div class="section-head">
+        <h2>Trend-driven narrative</h2>
+        <div class="section-intro">Clear, credible copy built from forward-looking trend data, not hype.</div>
+      </div>
+      <div class="cards" aria-label="Trend data blocks">
+        <article class="card" aria-label="Budget allocations 2027 overview">
+          <h3>2027 Allocations — Key Sectors</h3>
+          <p class="muted" style="margin:.25em 0 0;">Public services, healthcare, and education see targeted increases to support long-term growth.</p>
+          <div class="num" style="font-family:ui-monospace; margin-top:6px;">+2.4% GDP-equivalent focus</div>
+        </article>
+        <article class="card" aria-label="Tax policy context">
+          <h3>Tax and Wages Context</h3>
+          <p class="muted" style="margin:.25em 0 0;">A balanced approach to minimum wage alignment with living costs and sustainable revenue channels.</p>
+          <div class="num" style="margin-top:6px;">Mean tax relief window: 6–12%</div>
+        </article>
+        <article class="card" aria-label="Public debt and deficits">
+          <h3>Debt, Deficit, and Stability</h3>
+          <p class="muted" style="margin:.25em 0 0;">Macro prudence with a growth tilt, designed for resilience in a volatile global cycle.</p>
+          <div class="num" style="margin-top:6px;">Deficit target: -3.0% of GDP</div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <section id="contact" aria-label="Footer call to action" style="background:#0b0e16; padding:40px 0 60px;">
+    <div class="container" style="padding:0;">
+      <div class="section-head" style="align-items:center;">
+        <h2>Explore this premium concept</h2>
+        <div class="section-intro">We deliver production-ready pages for forward-looking trend opportunities.</div>
+      </div>
+      <div class="grid-two" style="margin-top:20px;">
+        <div class="card" aria-label="About the studio">
+          <h3>Studio-grade Brand Language</h3>
+          <p class="muted" style="margin:0;">Editorial tone, modular layout, and a color system that feels premium, not generic.</p>
+        </div>
+        <div class="card" aria-label="Accessibility and performance">
+          <h3>Accessible & Performant</h3>
+          <p class="muted" style="margin:0;">Semantic HTML, keyboard navigation, and lightweight JS for a fast, inclusive experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" aria-label="Site footer">
+    <div class="container footer-columns">
+      <div>
+        <strong>Insight Studio</strong><br/>
+        123 Studio Lane, Kuala Lumpur, MY
+      </div>
+      <div>
+        <strong>Contact</strong><br/>
+        hello@insight.studio
+      </div>
+      <div>
+        <strong>Legal</strong><br/>
+        © 2026 Insight Studio. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    @keyframes float { 0%{transform: translateY(0)} 50%{transform: translateY(-6px)} 100%{transform: translateY(0)} }
+  </style>
+</body>
+</html>
